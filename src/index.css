@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.form-control{
+color:black!important
+
+}
+.modal-dialog {
+ 
+          width: 360px;
+          height: 600;
+        }
+ 
+.modal-header {
+ 
+    background-color: rgb(219, 222, 226);
+    
+    padding:16px 16px;
+ 
+    color:rgb(25, 23, 23);
+ 
+    border-bottom:2px dashed #337AB7;
+ 
+ }
+
+ .gris{
+   background-color: rgba(163, 163, 224, 0.067);
+ }
