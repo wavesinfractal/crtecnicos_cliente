@@ -5,7 +5,7 @@ import CerrarSession from './CerrarSession';
 class Header extends Component {
 
   render() {
-    const {nombre, apellido} = (this.props.session) ?  this.props.session : {nombre:"",apellido:""}
+    // const {nombre, apellido} = (this.props.session) ?  this.props.session : {nombre:"",apellido:""}
      
         
        return (

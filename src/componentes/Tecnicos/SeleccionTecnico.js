@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { Query } from "react-apollo";
-import FiltroBusqueda from "./FiltroBusqueda";
+// import FiltroBusqueda from "./FiltroBusqueda";
 import Slider from "react-slick";
 
 class SeleccionTecnico extends Component {
