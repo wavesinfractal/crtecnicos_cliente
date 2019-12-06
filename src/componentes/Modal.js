@@ -1,37 +1,48 @@
 import React, { Component } from "react";
-
+import $ from "jquery";
 class Modal extends Component {
+  constructor(props) {
+    super (props)   
+  }
+  componentDidMount (){
+    setTimeout(()=>{     
+      $('.modal-backdrop').remove()
+      $("#myModal").modal("show")    
+      $("#myModal").on('hidden.bs.modal',  () =>  this.props.cerrarModal())       
+    },100)   
+  }
+
   render() {
     return (
       <div className="modal" id="myModal">
         <div className="modal-dialog ">
           <div className="modal-content">
             <div className="modal-header ">
-              <div className="container">
+              <div className="container-fluid">
                 <div className="row d-flex justify-content-around  ">
-                  <div className="col text-left">
+                  <div className="col-auto text-left">
                     <button
                       type="button"
                       className="btn btn-sm btn-rounded btn-primary"
                       
                     >
-                      Atras
-                    </button>
-                  </div>
-
-                  <div className="col  text-center">
-                    <h1 className="h5">{this.props.titulo}</h1>
-                  </div>
-
-                  <div className="col  text-right">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-rounded btn-danger"
-                      data-dismiss="modal"
-                      onClick={() => this.props.cerrarModal()}
-                    >
                       x
                     </button>
+                  </div>
+
+                  <div className="col-auto  text-center">
+                    <h1 className=" h5-md h6 ">{this.props.titulo}</h1>
+                  </div>
+                  
+                  <div className="col-auto  text-right">
+                  <span 
+                  
+                  type="button"
+                  className="badge badge-pill badge-danger h5"
+                  data-dismiss="modal"
+                  onClick={() => this.props.cerrarModal()}
+                  >Danger</span>
+                    
                   </div>
                 </div>
               </div>

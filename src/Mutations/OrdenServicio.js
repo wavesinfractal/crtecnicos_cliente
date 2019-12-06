@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 
+
+
 export const MutationNuevaOrden = gql`
   mutation crearOrdenServicio($input: OrdenServicioInput) {
     crearOrdenServicio(inputData: $input) {

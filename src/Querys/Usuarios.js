@@ -7,12 +7,9 @@ export const queryGetUsuarioActual = gql`
       cedula
       nombre
       apellido
-      foto
-      zona
-      direccion
-      empresa
-      nacimiento
+      foto    
       tiposervicio
+      estado
       mensaje
     }
   }

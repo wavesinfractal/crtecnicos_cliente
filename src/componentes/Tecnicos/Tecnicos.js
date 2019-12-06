@@ -31,9 +31,10 @@ class Tecnicos extends Component {
                   {data.getTecnicos.map(tecnico => {
                     return (
                       <tr key={tecnico.id}>
-                        <td>{tecnico.nombre}</td>
-                        <td>{tecnico.apellido}</td>
-                        <td>{tecnico.empresa}</td>
+                  <td>{tecnico.nombre.nombre} {tecnico.nombre.apellido1}</td>
+                        <td>{tecnico.zona.canton}</td>
+                       
+                       
                         <td className="d-flex justify-content-around">
                           <button
                             type="button"

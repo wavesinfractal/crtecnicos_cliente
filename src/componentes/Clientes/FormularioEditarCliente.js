@@ -137,12 +137,13 @@ class FormularioEditarCliente extends Component {
                 </button>
                 <div className="collapse w-100 my-1" id="collapseExample">
                   <div className="card card-body">
-                    {this.state.emails.map((input, index) => (
+                    {                    
+                      this.state.emails.map((input, index) => (
                       <div key={index} className="form-group col-md-12">
                         <label>Email {index + 1} : </label>
                         <div className="input-group">
                           <input
-                            Value={this.state.emails[index].email}
+                            value={this.state.emails[index].email}
                             type="email"
                             placeholder={`Email`}
                             className="form-control"

@@ -44,7 +44,7 @@ export default class Clientes extends Component {
           return (
             <div className="container flex  justify-content-center">
               {this.state.alerta.mostrar ? (
-                <Alerts mensaje={this.state.alerta} />
+                <Alerts mensaje={this.state.alerta.mensaje} />
               ) : (
                 ""
               )}
@@ -77,7 +77,7 @@ export default class Clientes extends Component {
                           </Link>
                           <Mutation
                             mutation={MutationEliminarCliente}
-                            onCompleted={data => {
+                            onCompleted={(data) => {
                               this.setState({
                                 alerta: {
                                   mostrar: true,

@@ -14,18 +14,21 @@ class SeleccionTecnico extends Component {
     };
     const data = [
       {
+        id: "5dca4278a0c3f12af02d6340",
         nombre: "Alexader Nuñez",
         skills: "tecnico en linea blanca",
         imagen: "http://192.168.1.10/objetos/01.jpg",
         cedula: "203457789"
       },
       {
+        id: "5dca4278a0c3f12af02d6258",
         nombre: "Luis turbina",
         skills: "tecnico en linea blanca",
         imagen: "http://192.168.1.10/objetos/02.jpg",
         cedula: "20sss7789"
       },
       {
+        id: "5dca4278a0c3f12af02d6456",
         nombre: "Joacsan jimenez",
         skills: "tecnico en linea blanca",
         imagen: "http://192.168.1.10/objetos/03.jpg",
@@ -67,6 +70,7 @@ class SeleccionTecnico extends Component {
 
                           this.props.seleccion({
                             tecnico: {
+                              id: datos.id,
                               nombre: datos.nombre,
                               cedula: datos.cedula
                             }
