@@ -12,19 +12,19 @@ import { InMemoryCache } from "apollo-boost";
 
 import { ApolloProvider } from "react-apollo";
 
-// var Url = ''
-// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+var Url = ''
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   
-//    Url = "http://192.168.1.10:8000/graphql" } else {
+   Url = "http://192.168.1.10:8000/graphql" } else {
 
-//    Url = "https://servercrtecnicos.herokuapp.com/graphql"
-// }
+   Url = "https://servercrtecnicos.herokuapp.com/graphql"
+}
 console.log(process.env.NODE_ENV )
 
 const client = new ApolloClient({
-    // uri: Url ,
+    uri: Url ,
     // uri: "http://crtecnicosserver.herokuapp.com/graphql",
-    uri: "http://192.168.1.10:8000/graphql" ,
+    // uri: "http://192.168.1.10:8000/graphql" ,
     fetchOptions: {
       credentials: 'include'
     },
