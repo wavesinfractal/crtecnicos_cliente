@@ -5,10 +5,8 @@ export const queryGetUsuarioActual = gql`
       movil
       email
       cedula
-      nombre
-      apellido
-      foto    
-      tiposervicio
+      nombre {nombre apellido1 apellido2}
+      foto          
       estado
       mensaje
     }

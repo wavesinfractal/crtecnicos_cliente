@@ -3,7 +3,6 @@ import { Mutation } from "react-apollo";
 import { MutationLogin } from "../../Mutations/General";
 import { withRouter, Link } from "react-router-dom";
 import Alerts from "../layouts/Alerts";
-
 import ImgLogin from "../../descarga.png";
 const elstate = {
   movil: "",

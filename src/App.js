@@ -4,10 +4,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
-  withRouter
+  Redirect 
 } from "react-router-dom";
-import $ from "jquery";
 import Headert from "./componentes/layouts/Header";
 import Login from "./componentes/Usuarios/Login";
 import Clientes from "./componentes/Clientes/Clientes";
@@ -26,14 +24,22 @@ import Dashboard from "./componentes/Dashboard/DashBoard";
 import Registro from "./componentes/Usuarios/Registro";
 import RecuperarPass from "./componentes/Usuarios/RecuperarPass";
 import CodConfirmacion from "./componentes/Usuarios/CodConfirmacion";
-$(document).ready(function(){
-  var height = $(window).height();
-  $('#principal').height(height);
-  console.log(height);
-});
+
 class App extends Component {
   state={ view:false}
- setView = () =>{this.setState( {view : !this.state.view})}
+
+ setView = (data) =>{
+  //  console.log(data)
+   switch (data) {
+     case 1: return this.setState( {view : !this.state.view})
+     case false: return this.setState( {view : false})
+     case true:return  this.setState( {view : true})   
+       
+   }
+   
+  
+  }
+
   render() {    
     return (
       <Fragment> 
@@ -122,10 +128,14 @@ const filtro = session => {
         return <Redirect to="/dashboard" />;
       case "PENDIENTE":
         return <Redirect to="/confirmacion" />;
+      case "SINSESSION":
+        return <Redirect to="/login" />;
+      case null:
+        return <Redirect to="/login" />;
       default:
     }
   } else {
-    console.log("No hay sesion");
+    
     return <Redirect to="/login" />;
   }
 };

@@ -16,6 +16,7 @@ code {
 color:black!important
 
 }
+
 .modal-dialog {
  
           width: 360px;
@@ -24,7 +25,7 @@ color:black!important
  
 .modal-header {
  
-    background-color: rgb(219, 222, 226);
+    background-color: rgba(219, 222, 226, 0);
     
     padding:16px 16px;
  
@@ -37,10 +38,15 @@ color:black!important
  .gris{
    background-color: rgba(163, 163, 224, 0.067);
  }
+ /* html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        } */
 
-
- .principal{
-
-
-   height:100%
- }
+        .fronto {
+          background-color: rgba(10, 110, 241, 0.959);
+          position: fixed;
+          
+        }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 class DashBoard extends Component {
@@ -6,32 +6,31 @@ class DashBoard extends Component {
   //   this.props.refetch()
   // }
   render() {
-    const { nombre, apellido } = this.props.session
-      ? this.props.session
-      : { nombre: "", apellido: "" };
+    
     return (
-      <div className="row justify-content-center my-3">
-        <div className="row">
-          <h1 className="text-center h5">Tablero</h1>
+      <Fragment>
+        <div className="row  text-center">
+          <h1 className="h4 w-100">Tablero</h1>
         </div>
-        <div className="col-sm-10 justify-content-center  text-center ">
-          <Link
-            type="button"
-            className="btn btn-lg btn-primary btn-block text-center text-light my-2"
-            to="/ordenes/nuevo"
-          >
-            Reportar Articulo sdfgsdfgsdfgsdf
-          </Link>
-
-          <Link
-            type="button"
-            className="btn btn-lg btn-primary btn-block  text-center text-light my-2"
-            to="/reportes"
-          >
-            Panel de Control
-          </Link>
+        <div className="row justify-content-center my-3">
+          <div className="col-sm-10 justify-content-center  text-center ">
+            <Link
+              type="button"
+              className="btn btn-lg btn-primary btn-block text-center text-light my-3"
+              to="/ordenes/nuevo"
+            >
+              Reportar Articulo
+            </Link>
+            <Link
+              type="button"
+              className="btn btn-lg btn-primary btn-block text-center text-light my-3"
+              to="/reportes"
+            >
+              Panel de Control
+            </Link>
+          </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

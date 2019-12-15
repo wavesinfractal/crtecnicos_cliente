@@ -33,7 +33,7 @@ class Sectores extends Component {
       this.setState({ provincias: Object.values(provincias) });
     
     }
-  };
+  }
 
   getCanton = async provincia => {
     await this.setState({ provincia: Number(provincia) });

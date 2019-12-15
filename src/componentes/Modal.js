@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import $ from "jquery";
 class Modal extends Component {
-  constructor(props) {
-    super (props)   
-  }
+ 
   componentDidMount (){
     setTimeout(()=>{     
       $('.modal-backdrop').remove()
@@ -51,7 +49,7 @@ class Modal extends Component {
             {
               <this.props.componente
                 seleccion={this.props.seleccion}
-                cerrarModal={this.props.cerrarModal}
+                cerrarModal={this.props.cerrarModal}                
               />
             }
             <div className="modal-footer"></div>

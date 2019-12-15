@@ -3,33 +3,44 @@ import React, {  Fragment } from "react";
 import { openFullscreen } from "./Screen";
 // import { openFullscreen, closeFullscreen } from "./Screen"
 import { Menu, Sidebar } from "semantic-ui-react";
+// import {Link}from 'react-router-dom'
 // import React, { Component } from "react";
+import $ from "jquery";
 
 const MenuSidebar = Component => props => {
   const WithStateComponent = () => {   
   
-console.log(props.view);
+    $(document).ready(function(){
+      var heightw = $(window).height();
+        $("#principal").height(heightw);
+      //  console.log(h$(".sidebar"))
+      // var toto = (heightw > heightv)? $('#principal').height(heightw ): $('#principal').height("auto" )
+
+     
+      
+    });
 
     return (
-      <div className="pushable">
-        <Sidebar
-          as={Menu}
-          animation="overlay"
-          icon="labeled"
-          inverted
-          closable={true}
-          vertical
-          visible={props.view}
-          width="thin"
-        >
+      <div className="pushable container-fluid" id="principal" >
+      <Sidebar
+            as={Menu}
+            animation="scale down"
+            icon="labeled"
+            inverted
+            // onHide={}
+            vertical
+            visible={props.view}
+            width="thin"
+            fixed="left"
+          >
           {props.session ? (
             <BarUser setView={props.setView} session={props.session} />
           ) : (
             ""
           )}
-        </Sidebar>
+           </Sidebar>
 
-        <div className="pusher" >
+        <div className="pusher"   onClick={()=> props.setView(false)}>
           <div >
                       <Component  {...props} />
           </div>
@@ -41,19 +52,23 @@ console.log(props.view);
 };
 export default MenuSidebar;
 
+
+
 const BarUser = ({ session, setView }) => {
-  const { nombre } = session ? session : "";
-  // console.log(session);
+  
+  const { nombre, apellido1 } = (session.nombre) ? session.nombre : "";
+  // const { nombre } = (nombre) ? session : "";
+  
   return (
     <Fragment> 
-      <vid className="container-fluid mt-5">
+      <div className="container-fluid" style={{height:'65px'}} />
       
    
-
-      <h1 className=" h4 text-light text-center mt-5">{nombre}</h1>
+         
+  <h1 className=" h5 text-light text-center my-3">{nombre}{" "}{apellido1}</h1>
       <ul className="list-group ">
         <li className="list-group-item bg-primary">
-          {" "}
+          {" "} 
           <i
             aria-hidden="true"
             className="home icon text-light large w-100"
@@ -112,7 +127,7 @@ const BarUser = ({ session, setView }) => {
           hola
         </li>
       </ul>
-      </vid>
+    
     </Fragment>
   );
 };

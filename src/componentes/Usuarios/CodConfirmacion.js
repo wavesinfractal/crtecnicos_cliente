@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from "react";
 
 class CodConfirmacion extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Este es el codigo de confirmacion</h1>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <Fragment>
+       
+          <h1>Este es el codigo de confirmacion</h1>
+         
+        
+      </Fragment>
+    );
+  }
 }
 
 export default CodConfirmacion;
