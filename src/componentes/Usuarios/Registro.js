@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import Sectores from "../layouts/Sectores";
 import Alerts from "../layouts/Alerts";
-import CodConfirmacion from "./CodConfirmacion"
+import CodConfirmacion from "./CodConfirmacion";
 import $ from "jquery";
 class Registro extends Component {
   state = {
@@ -12,6 +12,7 @@ class Registro extends Component {
     apellido1: { data: "", valid: false },
     apellido2: { data: "", valid: false },
     password: { data: "", valid: false },
+    confpassword: { data: "", valid: false },
     cedula: { data: "", valid: false },
     email: { data: "", valid: false },
     movil: { data: "", valid: false },
@@ -21,18 +22,27 @@ class Registro extends Component {
     alerta: { mostrar: false, mensaje: "", color: "" },
     confirmacion: false
   };
-    
-openModal = ()=>{
-  
-  setTimeout(()=> {
-    $("#confirmacion").modal("show") 
-    $('.modal-backdrop').remove()
-   }) 
-}
- 
- confirmacion = ()=>{
- 
- }
+
+  openModal = () => {
+    setTimeout(() => {
+      $("#confirmacion").modal("show");
+      $(".modal-backdrop").remove();
+    });
+  };
+
+  confirmarPassword = () => {
+
+    function validatePassword(){
+      if(this.state.password.data != this.state.confpassword.data) {
+        
+      } else {
+        
+      }
+    }
+
+  };
+
+
   getData = data => {
     // console.log(data)
     if (
@@ -44,10 +54,16 @@ openModal = ()=>{
   };
 
   ActualizarState = e => {
+    // console.log(e.target)
     const { name, value } = e.target;
-    var data = document.getElementById(name);
-    this.setState({ [name]: { data: value, valid: data.validity.valid } });
+    let valid = this[name].validity.valid
+      ? this[name].setAttribute("class", "form-control is-valid")
+      : this[name].setAttribute("class", "form-control is-invalid");
+      this.setState({ [name]: { data: value, valid } });
+    
   };
+
+
 
   EnviarMutation = (e, crearUsuario) => {
     e.preventDefault();
@@ -98,15 +114,11 @@ openModal = ()=>{
   render() {
     // console.log(this.state.email.valid);
 
-
-
-    return (this.state.confirmacion) ?  <CodConfirmacion/> :
-    
-    
-    (
-     
+    return this.state.confirmacion ? (
+      <CodConfirmacion />
+    ) : (
       <div className="row d-flex  justify-content-center  mt-3">
-        { this.confirmacion() }
+        {this.confirmacion()}
         {this.state.alerta.mostrar ? <Alerts data={this.state.alerta} /> : ""}
         <Mutation
           mutation={mutationNuevoUsuario}
@@ -119,7 +131,7 @@ openModal = ()=>{
               }
             });
             setTimeout(() => {
-              this.setState({confirmacion:true})
+              this.setState({ confirmacion: true });
               // this.props.history.push("/confirmar");
             }, 2000);
           }}
@@ -128,8 +140,7 @@ openModal = ()=>{
             if (loading) return "Cargando...";
             if (error) return error;
 
-            return ( 
-             
+            return (
               <form
                 // noValidate
                 className="col-md-8 m-3 needs-validation"
@@ -146,18 +157,13 @@ openModal = ()=>{
                     <label htmlFor="nombre">Nombre</label>
 
                     <input
-                      autoFocus
+                      ref={input => (this[Object(input).name] = input)}
                       required
+                      // autoFocus
                       id="nombre"
                       name="nombre"
                       type="text"
-                      className={`form-control ${
-                        this.state.nombre.data
-                          ? this.state.nombre.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="Nombre"
                       minLength="2"
                       maxLength="20"
@@ -170,17 +176,12 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="apellido">Apellido </label>
                     <input
+                      ref={input => (this[Object(input).name] = input)}
                       required
                       id="apellido1"
                       name="apellido1"
                       type="text"
-                      className={`form-control ${
-                        this.state.apellido1.data
-                          ? this.state.apellido1.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="Apellido"
                       minLength="5"
                       maxLength="20"
@@ -195,6 +196,7 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="cedula">Cedula</label>
                     <input
+                       ref={input => (this[Object(input).name] = input)}
                       required
                       id="cedula"
                       name="cedula"
@@ -218,17 +220,12 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="email">Email</label>
                     <input
+                    ref={input => (this[Object(input).name] = input)}
                       required
                       id="email"
                       name="email"
                       type="email"
-                      className={`form-control ${
-                        this.state.email.data
-                          ? this.state.email.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="ejemplo@gmail.com"
                       defaultValue={this.state.email.data}
                       onChange={e => {
@@ -241,18 +238,13 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="">Contraseña</label>
                     <input
+                    ref={input => (this[Object(input).name] = input)}
                       required
                       id="password"
                       name="password"
                       type="password"
                       minLength="10"
-                      className={`form-control ${
-                        this.state.password.data
-                          ? this.state.password.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="Cedula"
                       defaultValue={this.state.password.data}
                       onChange={e => {
@@ -263,16 +255,12 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label>Confirmar Contraseña</label>
                     <input
-                      type="password"
-                      className={`form-control ${
-                        this.state.password.data
-                          ? this.state.password.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
-                      defaultValue={this.state.password.data}
-                      onChange={e => {}}
+                      name="confpassword"
+                      ref={input => (this[Object(input).name] = input)}
+                      type="confpassword"
+                      className="form-control"                        
+                      // defaultValue={this.state.confpassword.data}
+                      onChange={e => {this.confirmarPassword(e)}}
                     />
                   </div>
                 </div>
@@ -281,17 +269,12 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="movil">Movil</label>
                     <input
+                    ref={input => (this[Object(input).name] = input)}
                       required
                       id="movil"
                       name="movil"
                       type="tel"
-                      className={`form-control ${
-                        this.state.movil.data
-                          ? this.state.movil.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="Movil"
                       maxLength="8"
                       minLength="8"
@@ -305,17 +288,12 @@ openModal = ()=>{
                   <div className="form-group col-md-6">
                     <label htmlFor="nacimiento">Fecha de nacimiento</label>
                     <input
+                    ref={input => (this[Object(input).name] = input)}
                       required
                       id="nacimiento"
                       name="nacimiento"
                       type="date"
-                      className={`form-control ${
-                        this.state.nacimiento.data
-                          ? this.state.nacimiento.valid
-                            ? "is-valid"
-                            : "is-invalid"
-                          : ""
-                      }`}
+                      className={"form-control"}
                       placeholder="Fecha de nacimiento"
                       defaultValue={this.state.nacimiento.data}
                       onChange={e => {
@@ -333,19 +311,14 @@ openModal = ()=>{
                 <div className="form-group">
                   <label htmlFor="direccion">Direccion:</label>
                   <textarea
+                  ref={input => (this[Object(input).name] = input)}
                     required
                     id="direccion"
-                    name="direccion"                    
+                    name="direccion"
                     rows="3"
                     maxLength="100"
                     minLength="40"
-                    className={`form-control ${
-                      this.state.direccion.data
-                        ? this.state.direccion.valid
-                          ? "is-valid"
-                          : "is-invalid"
-                        : ""
-                    }`}
+                    className={"form-control"}
                     onChange={e => {
                       this.ActualizarState(e);
                     }}
@@ -353,17 +326,13 @@ openModal = ()=>{
                   />
                 </div>
 
-
- <button type="submit" className="btn btn-success float-right">
+                <button type="submit" className="btn btn-success float-right">
                   Guardar Cambios
                 </button>
-               
               </form>
             );
           }}
         </Mutation>
-
-  
       </div>
     );
   }
