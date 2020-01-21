@@ -1,14 +1,17 @@
 import gql from "graphql-tag";
 
-export const NuevoArticulo = gql`
-  mutation crearArticulo($input: ArticuloInput) {
-    crearArticulo(inputData: $input) {
+export const MutNuevoArticulo = gql`
+  mutation crearArticulo($inputData: ArticuloInput) {
+    crearArticulo(inputData: $inputData) {
       id
+      propietario
       serie
       modelo
-      historial
       imagenes {
         imagen
+      }
+      historial {
+        reporte
       }
       proxmantenimiento
     }

@@ -1,128 +1,155 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 
-class Sectores extends Component {
-  state = {
-    provincias: [],
-    cantones: [],
-    distritos: [],
-    provincia: this.props.values.provincia,
-    canton: this.props.values.canton ,
-    distrito: this.props.values.distrito
+const Sectores = props => {
+  const [provincias, setProvincias] = useState([]);
+  const [cantones, setCantones] = useState([]);
+  const [distritos, setDistritos] = useState([]);
+  const [provincia, setProvincia] = useState(props.values.provincia);
+  const [canton, setCanton] = useState(props.values.canton);
+  const [distrito, setDistrito] = useState(props.values.distrito);
+  
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getProvincias(controller);
+
+    if (provincia > 0) {
+      getCantones(controller);
+    }
+    if (canton > 0 && provincia > 0) {
+      getDistritos(controller);
+    }
+    if (canton > 0 && provincia > 0 && distrito > 0) {
+      sendDatos();
+      // controller.abort();
+    }
+    return () => {      
+      // controller.abort();
+    };
+  }, [provincia, canton, distrito]);
+
+  const refProvincia = useRef(null);
+  const refCanton = useRef(null);
+  const refDistrito = useRef(null);
+
+  const sendDatos = () => {
+
+     var Provincia =  refProvincia.current.options[refProvincia.current.value].text
+     var Canton = refCanton.current.options[refCanton.current.value].text  
+     var Distrito = refDistrito.current.options[refDistrito.current.value].text
+
+
+     Provincia = (Provincia === "Elegir...")?null: Provincia
+     Canton = (Canton === "Elegir...")?null: Canton
+     Distrito = (Distrito === "Elegir...")?null: Distrito
+      
+     const texto = Array(Provincia, Canton,  Distrito)
+
+
+   
+
+    props.getData({ provincia, canton, distrito },texto.join(" - "));
+
+
+
   };
-  controller = new AbortController();
-  componentWillMount() {
-    this.getProvincias();
-  }
-  componentWillUnmount() {
-    this.controller.abort();
-  }
 
-  getDatos = () => {    
-    const { provincia, canton, distrito } = this.state;
-    this.props.getData({ provincia, canton, distrito });
-  };
-
-  getProvincias = async () => {
+  const getProvincias = async controller => {
     let response = await fetch(
       `https://ubicaciones.paginasweb.cr/provincias.json`,
-      { signal: this.controller.signal }
+      { signal: controller.signal }
     );
     let provincias = await response.json();
+    setProvincias(provincias);
+  };
 
-    for (let prop in provincias) {
-      this.setState({ provincias: Object.values(provincias) });
-    
-    }
-  }
-
-  getCanton = async provincia => {
-    await this.setState({ provincia: Number(provincia) });
-
+  const getCantones = async controller => {
     let response = await fetch(
-      `https://ubicaciones.paginasweb.cr/provincia/${this.state.provincia}/cantones.json`,
-      { signal: this.controller.signal }
+      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/cantones.json`,
+      { signal: controller.signal }
     );
     let cantones = await response.json();
-    for (let prop in cantones) {
-      prop = 1;
-      this.setState({ cantones: Object.values(cantones) });
-    }
+    setCantones(cantones);
   };
 
-  getDistritos = async canton => {
-    await this.setState({ canton: Number(canton) });
-
+  const getDistritos = async controller => {
     let response = await fetch(
-      `https://ubicaciones.paginasweb.cr/provincia/${this.state.provincia}/canton/${this.state.canton}/distritos.json`,
-      { signal: this.controller.signal }
+      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/canton/${canton}/distritos.json`,
+      { signal: controller.signal }
     );
     let distritos = await response.json();
-    for (const prop in distritos) {
-      this.setState({ distritos: Object.values(distritos) });
-    }
-  };
-  sendCallback = async distrito => {
-    
-    await this.setState({ distrito: Number(distrito) });
-    await this.getDatos();
+    setDistritos(distritos);
   };
 
-  render() {
-    return (
-      <Fragment>
-        <div className="form-group col-md-4">
-          <label>Provincia</label>
-          <select
-            className="form-control"
-            defaultValue={this.state.provincia}
-            onChange={e => {
-              this.getCanton(Number(e.target.value));
-            }}
-          >
-            <option value="">Elegir...</option>
-            {this.state.provincias.map((data, index) => (
-              <option key={index} value={index + 1}>
-                {data}
-              </option>
-            ))}
-          </select>
-        </div>
+  return (
+    <Fragment>
+      <div className="form-group col-sm-4">
+        <label>Provincia</label>
+        <select
+         required
+         id="provincia"
+          ref={refProvincia}
+          className="form-control"
+          onChange={e => {
+            // refCanton.current.value =  "0";
+            refCanton.current.selectedIndex = 0;
+            refDistrito.current.selectedIndex = 0;
+            setCantones([]);
+            setDistritos([]);
+            setCanton("");
+            setDistrito("");
+            setProvincia(Number(e.target.value));
+          }}
+        >
+          <option value="0">Elegir...</option>
+          {Object.values(provincias).map((data, index) => (            
+            <option key={index} value={index + 1}>
+              {data}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        <div className="form-group col-md-4">
-          <label>Canton</label>
-          <select
+      <div className="form-group col-sm-4">
+        <label>Canton</label>
+        <select
+          required
+          ref={refCanton}
+          className="form-control"
+          onChange={e => {
+            setCanton(Number(e.target.value));
+            refDistrito.current.selectedIndex = 0;
+            setDistritos([]);
+          }}
+        >
+          <option value="0">Elegir...</option>
+          {Object.values(cantones).map((data, index) => (
+            <option key={index} value={index + 1}>
+              {data}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="form-group col-sm-4">
+        <label>Distrito</label>
+        <select
+         required
+            ref={refDistrito}
             className="form-control"
-            defaultValue={this.state.canton}
             onChange={e => {
-              this.getDistritos(e.target.value);
-            }}
-          >
-            <option value="">Elegir...</option>
-            {this.state.cantones.map((data, index) => (
-              <option key={index} value={index + 1}>
-                {data}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group col-md-4">
-          <label>Distrito</label>
-          <select
-            className="form-control"
-            defaultValue={this.state.distrito}
-            onChange={e => this.sendCallback(e.target.value)}
-          >
-            <option value="">Elegir...</option>
-            {this.state.distritos.map((data, index) => (
-              <option key={index} value={index + 1}>
-                {data}
-              </option>
-            ))}
-          </select>         
-        </div>
-      </Fragment>
-    );
-  }
-}
+            setDistrito(Number(e.target.value));
+          }}
+        >
+          <option value="0">Elegir...</option>
+          {Object.values(distritos).map((data, index) => (            
+            <option key={index} value={index + 1}>
+              {data}
+            </option>
+          ))}
+        </select>
+      </div>
+    </Fragment>
+  );
+};
 
 export default Sectores;

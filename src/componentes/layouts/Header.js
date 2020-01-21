@@ -5,6 +5,7 @@ import CerrarSession from "./CerrarSession";
 // import AddToHomescreen from "react-add-to-homescreen";
 
 const Botton = props => (
+  // console.log(props),
   <button
     className="navbar-toggler sidebar-toggler"
     type="button"

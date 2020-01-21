@@ -6,15 +6,19 @@ class Modal extends Component {
     setTimeout(()=>{     
       $('.modal-backdrop').remove()
       $("#myModal").modal("show")    
-      $("#myModal").on('hidden.bs.modal',  () =>  this.props.cerrarModal())       
+      $("#myModal").on('hidden.bs.modal',  () =>  this.props.cerrarModal())    
+      $('.modal-backdrop').remove();  
     },100)   
+   
+
+    
   }
 
   render() {
     return (
       <div className="modal" id="myModal">
         <div className="modal-dialog ">
-          <div className="modal-content">
+          <div className="modal-content bg-light border-0">
             <div className="modal-header ">
               <div className="container-fluid">
                 <div className="row d-flex justify-content-around  ">
@@ -45,13 +49,14 @@ class Modal extends Component {
                 </div>
               </div>
             </div>
-            <div className="modal-body "></div>
+            <div className="modal-body bg-transparent">
             {
               <this.props.componente
                 seleccion={this.props.seleccion}
                 cerrarModal={this.props.cerrarModal}                
               />
             }
+            </div>
             <div className="modal-footer"></div>
           </div>
         </div>

@@ -1,59 +1,83 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { BuscarArticulos } from "../../Querys/Articulos";
-import { Query } from "react-apollo";
+import { Link } from "react-router-dom";
+import SessionHook from "../SessionHook";
+import { useQuery } from "@apollo/react-hooks";
 
-class Articulos extends Component {
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Query query={BuscarArticulos}>
-              {({ loading, error, data }) => {
-                if (loading) return "loading...";
-                if (error) return error;
+const Articulos = props => {
+  const session = SessionHook();
 
-                return (
-                  <div className="container">
-                    <ul className="list-group">
-                      {data.getArticulos.map((item, index) => {
-                        return (
-                          <li key={index} className="list-group-item">
-                            {item.modelo} 
-                             <button 
-                             data-dismiss="modal"
-                             onClick={()=>{
-                              this.props.seleccion({ serie : item.serie});
-                              this.props.cerrarModal();
-                              }}
-                             className="btn btn-success btn-sm float-right mx-1">Seleccionar
-                             </button>
-                             <button className="btn btn-primary  btn-sm float-right mx-1">Ver Detalles</button>
+  const { loading, error, data, refetch } = useQuery(BuscarArticulos, {
+    variables: { buscar: { propietario: session.id } }
+  });
 
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                );
-              }}
-            </Query>
-          </div>
-        </div> 
-        <div className="container my-5">
+  useEffect(() => {
+    refetch();
+  }, []);
 
-        <div className="row justify-content-center">
-          <div className="col-4">
-           <button className="btn btn-primary btn-block">Nuevo Articulo</button>
-          </div>
-          <div className="col-4">
-          <button className="btn btn-primary btn-block">Nuevo Articulo</button>
-          </div>
-        </div>
+  if (loading) return "loading...";
+  if (error) return error;
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <ListaArticulos
+            data={data}
+            refetch={refetch}
+            {...props}
+          ></ListaArticulos>
         </div>
       </div>
-    );
-  }
-}
+      <div className="container my-5">
+        <div className="row justify-content-center">
+          <Link to="/articulos/nuevo" className="btn btn-success ">
+            Nuevo Articulo
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ListaArticulos = props => {
+  const { data, seleccion, cerrarModal } = props;
+  return (
+    <div className="container">
+      <ul className="list-group">
+        {data.getArticulos.map((item, index) => {
+          return (
+            <li
+              key={index}
+              className="list-group-item d-flex align-items-center justify-content-between"
+            >
+              <div className="">{item.modelo}</div>
+              <div className="d-flex justify-content-between">
+                <button
+                  type="button"
+                  className="btn btn-success btn-sm   mx-1"
+                  onClick={() => {
+                    seleccion({ articulo: item });
+                    cerrarModal();
+                  }}
+                >
+                  Seleccionar
+                </button>
+
+                <button type="button" className="btn btn-primary btn-sm   mx-1">
+                  Detalles
+                </button>
+
+                <button type="button" className="btn btn-danger  btn-sm   mx-1">
+                  Eliminar
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 export default Articulos;

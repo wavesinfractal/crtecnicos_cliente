@@ -2,6 +2,7 @@
   "name": "cliente",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost/build",
   "dependencies": {
     "apollo-boost": "^0.4.4",
     "bootstrap": "^4.3.1",
@@ -17,7 +18,8 @@
     "react-scripts": "3.2.0",
     "react-slick": "^0.25.2",
     "semantic-ui-react": "^0.88.1",
-    "serve": "^11.2.0"
+    "serve": "^11.2.0",
+    "use-persisted-state": "^0.3.0"
   },
   "scripts": {
     "run": "react-scripts start",

@@ -1,8 +1,7 @@
 import React from "react";
 
-const Alerts = ({ data }) => {
-  return (
-   
+export default  ({ data }) => 
+   (       
     <div className="container">
       <div className={`row d-flex justify-content-center`}>
         <div className="col-lg-8">
@@ -11,6 +10,6 @@ const Alerts = ({ data }) => {
       </div>
     </div>
   );
-};
 
-export default Alerts;
+
+ 

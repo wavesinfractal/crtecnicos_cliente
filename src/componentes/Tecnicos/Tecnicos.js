@@ -17,28 +17,27 @@ class Tecnicos extends Component {
          
 
           return (
-            <div className="container flex  justify-content-center">
-              <table className="table  table-bordered mt-5">
-                <thead className="bg-danger">
+            <div className="container flex  justify-content-center ">
+              <table className="table table-borderless mt-5 bg-white border border-blue" >
+                <thead className="">
                   <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Empresa</th>
-                    <th className="text-center ">Opciones</th>
+                    <th className="text-left h5">Nombre</th>
+                    <th className="text-center h5">Zona</th>                    
+                    <th className="text-center h5">Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.getTecnicos.map(tecnico => {
                     return (
                       <tr key={tecnico.id}>
-                  <td>{tecnico.nombre.nombre} {tecnico.nombre.apellido1}</td>
-                        <td>{tecnico.zona.canton}</td>
+                        <td >{tecnico.nombre.nombre} {tecnico.nombre.apellido1}</td>
+                        <td className="text-center">{tecnico.zona.canton}</td>
                        
                        
-                        <td className="d-flex justify-content-around">
+                        <td className="d-flex justify-content-center ">
                           <button
                             type="button"
-                            className="btn btn-primary btn-sm"
+                            className="btn btn-primary btn-sm mx-1"
                           >
                             Editar
                           </button>
@@ -50,7 +49,7 @@ class Tecnicos extends Component {
 
                                 <button
                                 type="button"
-                                className="btn btn-danger btn-sm"
+                                className="btn btn-danger btn-sm  mx-1"
                                 onClick={()=>{
                                   eliminarTecnico({variables:{id: tecnico.id}})
                                  }}

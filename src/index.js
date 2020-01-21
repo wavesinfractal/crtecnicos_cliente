@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './bootstrap/css/bootstrap.min.css';
-// import $ from 'jquery';
 // import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import RootSession from './App';
@@ -16,15 +15,14 @@ var Url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   
    Url = "http://192.168.1.10:8000/graphql" } else {
-
-   Url = "https://servercrtecnicos.herokuapp.com/graphql"
+    Url = "https://servercrtecnicos.herokuapp.com/graphql" 
+  //  Url = "https://servercrtecnicos.herokuapp.com/graphql"
 }
-console.log(process.env.NODE_ENV )
+// console.log(process.env.NODE_ENV )
 
 const client = new ApolloClient({
-    uri: Url ,
-    // uri: "http://crtecnicosserver.herokuapp.com/graphql",
-    // uri: "http://192.168.1.10:8000/graphql" ,
+  
+    uri: Url ,   
     fetchOptions: {
       credentials: 'include'
     },
@@ -42,16 +40,13 @@ const client = new ApolloClient({
   
     onError: ({ networkError, graphQLErrors }) => {
       console.log("Error de graphql", graphQLErrors);
-      console.log("Error de red", networkError);
-      return ( <div className="container gris mt-3">
-        <h1>error</h1>
-        </div>
-        )
+      console.log("Error de red", networkError);     
     },
     cache: new InMemoryCache({
       addTypename: false
     })
   });
+
 ReactDOM.render(
     <ApolloProvider client={client}>       
     <RootSession/>
