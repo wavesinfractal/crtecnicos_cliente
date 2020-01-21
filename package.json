@@ -2,7 +2,7 @@
   "name": "cliente",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/build",
+  "homepage": "https://crtecnicosserver.herokuapp.com",
   "dependencies": {
     "apollo-boost": "^0.4.4",
     "bootstrap": "^4.3.1",
