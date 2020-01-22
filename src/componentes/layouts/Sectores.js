@@ -24,7 +24,7 @@ const Sectores = props => {
       // controller.abort();
     }
     return () => {      
-      // controller.abort();
+      controller.abort();
     };
   }, [provincia, canton, distrito]);
 

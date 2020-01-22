@@ -38,7 +38,7 @@ const NuevaOrdenServicio = props => {
   const [falla, setFalla] = useState("");
   const [direccion, setDireccion] = useState("");
   const [modal, setModal] = useState(0);
-  const [msgError, setError] = useState(false);
+  // const [msgError, setError] = useState(false);
   const [zona, setZona] = useState({ provincia: "", canton: "", distrito: "" });
   const [zonaText, setzonaText] = useState("");
   const [alerta, setAlerta] = useState({
@@ -46,9 +46,7 @@ const NuevaOrdenServicio = props => {
     mensaje: "",
     color: ""
   });
-  useEffect(() => {
-    $("#myModal").modal("show");
-  }, []);
+
 
   useEffect(() => {
     if (alerta.mostrar) {
@@ -65,14 +63,7 @@ const NuevaOrdenServicio = props => {
     };
   }, [alerta]);
 
-  // useEffect(() => {
-  //   const referencias = [refSerie, refFalla,  refDireccion, refTecnico, refZona];
-  //   referencias.map(data => {
-  //     let input = data.current;
-  //     input.setCustomValidity('Invalid')
-  //     console.log("object")
-  //   })
-  // },[])
+ 
   useEffect(() => {
     const referencias = [refZona, refTecnico, refSerie,refFalla,refDireccion];
     refDireccion.current.value = direccion
@@ -127,7 +118,7 @@ const NuevaOrdenServicio = props => {
     });
   };
 
-  const abrirModal = () => {
+  const abrirModal = () => {    
     switch (modal) {
       case 0:
         return "";
@@ -135,6 +126,8 @@ const NuevaOrdenServicio = props => {
       case 1:
         return (
           <Modal
+            setModal={setModal}
+            init={modal}
             titulo="Seleccione un Articulo"
             seleccion={seleccion}
             cerrarModal={cerrarModal}
@@ -145,6 +138,8 @@ const NuevaOrdenServicio = props => {
       case 2:
         return (
           <Modal
+            setModal={setModal}
+            init={modal}
             titulo="Seleccione un Tecnico"
             seleccion={seleccion}
             cerrarModal={cerrarModal}

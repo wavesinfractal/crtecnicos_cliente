@@ -37,7 +37,7 @@ const SeleccionarTecnico = props => {
                   key={data.id}
                   className="col d-flex  justify-content-center text-center"
                 >
-                  <div className="ui card my-2">
+                  <div className="ui card my-4">
                     <div className="d-flex flex-column" style={{backgroud: "#444"}}>
 
                      <figure className="figure">
@@ -79,7 +79,7 @@ const SeleccionarTecnico = props => {
                           <div className="col-6">
                             <button
                               type="button"
-                              className="btn btn-block btn-sm btn-success"
+                              className="btn btn-block btn-sm btn-primary"
                               onClick={() => {
                                 props.seleccion({
                                   tecnico: {
@@ -97,9 +97,9 @@ const SeleccionarTecnico = props => {
                           <div className="col-6">
                             <button
                               type="button"
-                              className="btn btn-block btn-sm btn-success "
+                              className="btn btn-block btn-sm btn-primary "
                             >
-                              Ver Informacion
+                              Ver
                             </button>
                           </div>
                         </div>

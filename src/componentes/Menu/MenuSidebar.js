@@ -7,8 +7,7 @@ const MenuSidebar = props => {
   const refContainer = useRef(null);
 
   useEffect(() => {
-    console.log(view);
-    const menu = refMenu.current.style;
+        const menu = refMenu.current.style;
     const container = refContainer.current.style;
     if (view) {
       menu.display = "block";
