@@ -24,6 +24,7 @@ const MenuSidebar = props => {
       }, 500);
     }
   }, [props.view]);
+  
 
   return (
     <div className="sidenav" ref={refMenu} style={{ display: "none" }}>
