@@ -7,14 +7,26 @@ const MenuSidebar = props => {
   const refContainer = useRef(null);
 
   useEffect(() => {
-    const data = refMenu.current.style.width;
-    refMenu.current.style.width = data == "0vw" ? "40vw" : "0vw";
-    refContainer.current.style.opacity =
-      refContainer.current.style.opacity == "0" ? "1" : "0";
+    console.log(view);
+    const menu = refMenu.current.style;
+    const container = refContainer.current.style;
+    if (view) {
+      menu.display = "block";
+      setTimeout(() => {
+        menu.width = "40vw";
+        container.opacity = "1";
+      }, 100);     
+    } else {
+      menu.width = "0vw";
+      container.opacity = "0";
+      setTimeout(() => {
+        menu.display = "none";        
+      }, 500);
+    }
   }, [props.view]);
 
   return (
-    <div className="sidenav" ref={refMenu}>
+    <div className="sidenav" ref={refMenu} style={{ display: "none" }}>
       <div ref={refContainer}>
         <UserMenu {...props} setView={setView} />
       </div>

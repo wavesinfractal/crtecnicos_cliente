@@ -85,6 +85,7 @@ code {
 }
 
 .sidenav {  
+  /* display: hidden; */
   height: 95vh;
   width: 0%;
   position: fixed;
@@ -100,7 +101,7 @@ code {
 .sidenav > div{
   transition:   2.5s;
   border: 1px solid rgba(0, 0, 0, 0.287);  
-  opacity: 0 ;
+  opacity: 1 ;
   transition: visibility 0s, opacity 1s ease-in-out
 }
 .sidenav a {

@@ -31,7 +31,7 @@ const App = props => {
   return (
     <Fragment>
       <Router>
-        {/* <MenuSidebar {...props} view={view} setView={SetView}/> */}
+        <MenuSidebar {...props} view={view} setView={SetView}/>
         {filtro(session)} //Redirecciona en caso de no tener session
         <Header {...props} setView={SetView} />
         <Rutas {...props}/>
