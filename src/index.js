@@ -14,7 +14,7 @@ import { ApolloProvider } from "react-apollo";
 var Url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   
-  Url = "http://192.168.1.10:8000/graphql" } else {
+  Url = "https://crtecnicosserver.herokuapp.com/graphql" } else {
     Url = "https://crtecnicosserver.herokuapp.com/graphql" 
   //  Url = "https://crtecnicosserver.herokuapp.com/graphql"
   // "http://192.168.1.10:8000/graphql"

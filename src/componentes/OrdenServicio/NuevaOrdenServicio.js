@@ -112,17 +112,7 @@ const NuevaOrdenServicio = props => {
   const EnviarMutation = (e, crearUsuario) => {
     e.preventDefault();
 
-    // if (true) {
-    //   setAlerta({
-    //     mostrar: true,
-    //     mensaje: "todos los campos son necesarios",
-    //     color: "alert-warning"
-    //   });
-    //   return;
-    // } else {
-    //   setAlerta({ mostrar: false, mensaje: "" });
-    // }
-
+  
     const input = {
       cliente: props.session.id,
       tecnico: tecnico.id,
