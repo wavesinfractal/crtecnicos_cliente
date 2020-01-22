@@ -98,6 +98,9 @@ const User = () => (
           <Link to={`/tecnicos/seleccionar`} className="btn text-light">
             Seleccionar Tecnico
           </Link>
+          <Link to={`/lorem`} className="btn text-light">
+ lorem
+          </Link>
 
           <CerrarSession />
         </li>
