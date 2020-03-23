@@ -20,8 +20,7 @@ const Registro = props => {
   const refZona = useRef(null);
   const refButtonSubmit = useRef(null);
 
-  const [inputpass, setInputpass] = useState(true);
-
+  const [inputpass, setInputpass] = useState(true);  
   const [nombre, setNombre] = useState("");
   const [apellido1, setApellido1] = useState("");
   const [cedula, setCedula] = useState("");
@@ -101,7 +100,7 @@ const Registro = props => {
       } else {
         input.classList.remove("is-valid", "is-invalid");
       }
-      return;
+      
     });
   }, [
     nombre,
@@ -189,9 +188,11 @@ const Registro = props => {
           EnviarMutation(e, crearUsuario);
         }}
       >
-        <div className="form-row d-flex justify-content-center">
-          <div className="form-group col-auto text-center h4">Registrese</div>
-        </div>
+        {/* <div className="form-row d-flex justify-content-center">
+      <div className="form-group col-auto  text-center h3"></div>
+        </div> */}
+        
+      <h1 className="h3 text-center mb-md-5">Registro de {props.match.params.rol}</h1>
 
         <div className="form-row">
           <div className="form-group  col-md-6">

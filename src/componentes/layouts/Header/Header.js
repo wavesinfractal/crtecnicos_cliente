@@ -1,59 +1,31 @@
 import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
-import CerrarSession from "./CerrarSession";
-
+import CerrarSession from "../CerrarSession";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
+import "./index.css"
 // import AddToHomescreen from "react-add-to-homescreen";
 
-const Botton = props => (
-  // console.log(props),
-  <button
-    className="navbar-toggler sidebar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#sidebar"
-    aria-controls="navegacion"
-    aria-expanded="false"
-    aria-label="Menu"
-    onClick={() =>
-      setTimeout(() => {
-        props.setView(1);
-      }, 50)
-    }
-  >
-    <span className="navbar-toggler-icon"></span>
-  </button>
-);
 
-const Bottonfake =()=> (
-  <button className="navbar-toggler sidebar-toggler" type="button">
-    <span className="navbar-toggler-icon"></span>
-  </button>
-);
+
+
 
 const Header = props => {
-  const { nombre, estado } = props.session
-    ? props.session
-    : { nombre: "", apellido: "" };
-
+ 
   return (
-    <nav className="navbar fixed-top  navbar-expand-lg navbar-dark bg-primary justify-content-between d-flex mb-3">
-      <div className="container-fluid">
-        {nombre === null && estado === "SINSESSION" ? (
-         <Bottonfake/>
-        ) : (
+    <nav className="header">
+     
+      
           <Botton {...props} />
-        )}
+       
 
-        <a href="/" className="navbar-brand text-light font-weight-bold">
-          CRTecnicos
+        <a href="/" className="icon-nav">
+          CRTECNICOS
         </a>
-
-        {/* <div className="row d-flex align-item-center justify-content-end"
-        <p className="text-right text-light ">{` ${nombre} ${apellido}`}</p>
-        </div> */}
+      
 
         <button
-          className="navbar-toggler "
+          className="button-nav"
           type="button"
           data-toggle="collapse"
           data-target="#navegacion"
@@ -61,7 +33,7 @@ const Header = props => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+           <FontAwesomeIcon icon={faBars} size="2x" style={{color:"#fff"}}/>
         </button>
 
         <User />
@@ -71,7 +43,7 @@ const Header = props => {
             <li className="nav-item active"></li>
           </ul>
         </div>
-      </div>
+     
     </nav>
   );
 };
@@ -107,6 +79,26 @@ const User = () => (
       </ul>
     </div>
   </Fragment>
+);
+
+
+
+const Botton = props => (  
+  <button
+    className="button-nav"
+    type="button"  
+    onClick={() =>
+      setTimeout(() => {
+        props.setView(1);
+      }, 50)
+    }
+    >    
+    <FontAwesomeIcon icon={faBars} size="2x" style={{color:"#fff"}}/>
+  </button>
+);
+
+const Bottonfake =()=> (  
+  <FontAwesomeIcon icon={faBars} size="2x" style={{color:"#fff"}}/> 
 );
 
 export default withRouter(Header);

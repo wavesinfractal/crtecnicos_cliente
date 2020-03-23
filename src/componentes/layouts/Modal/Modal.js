@@ -1,13 +1,13 @@
-import React, { Component, Fragment, useRef, useEffect,
-useState } from "react";
-import $ from "jquery";
+import React, { Fragment, useRef, useEffect } from "react";
+import "./Modal.css"
+// import $ from "jquery";
 const Modal = (props) => {
 
   const modalRef = useRef(null);
+ const Componente = props.componente
+
   useEffect(() => {    
-    setTimeout(() => {  
-      modalRef.current.style.display = "block"
-    }, 100);
+  abrirModal()
   }, [props.init]);
 
 
@@ -29,7 +29,7 @@ const Modal = (props) => {
         <div className="container-modal">
           <span  className="close" onClick={()=> cerrarModal1()}>&times;</span>
           {
-            <props.componente
+            <Componente
               seleccion={props.seleccion}
               cerrarModal={cerrarModal1}
             />

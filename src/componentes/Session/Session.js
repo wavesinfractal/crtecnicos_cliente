@@ -1,5 +1,5 @@
 import { Query } from "react-apollo";
-import { queryGetUsuarioActual } from "../Querys/Usuarios";
+import { queryGetUsuarioActual } from "../../Querys/Usuarios";
 import React from "react";
 
 const Session = Component => props => (
@@ -7,10 +7,10 @@ const Session = Component => props => (
   query={queryGetUsuarioActual}
  
   >
- {({ loading, error, data, refetch }) => {
+ {({ loading, error, data, refetch }) => {   
         if(loading) return null
         // console.log(data)
-        return( <Component {...props} refetch={refetch} session={data.usuarioActual} />);
+        if (data)return( <Component {...props} refetch={refetch} session={data.usuarioActual} />);
     }}
   </Query>
 );

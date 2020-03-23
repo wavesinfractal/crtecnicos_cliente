@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { MutCrearCodigo, MutEnviarCodigo } from "../../Mutations/Registro";
 import Alerts from "../layouts/Alerts";
 import Loader from "../layouts/Loader";
@@ -23,7 +23,7 @@ const CodConfirmacion = props => {
     }).then(data => {
       setEstado(data.data.CodConfirmacion);
     });
-  }, [movil, email]);
+  }, [movil, email, crearCod]);
 
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const CodConfirmacion = props => {
           mensaje: "",
           color: ""
         });
-        props.history.push("/login");
+        // props.history.push("/login");
       }, 3000);
     }
 

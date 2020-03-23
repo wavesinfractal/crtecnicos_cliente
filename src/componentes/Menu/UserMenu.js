@@ -1,28 +1,32 @@
 import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom"; 
+import {openFullscreen} from "../layouts/Screen"
+import CerrarSession from "../layouts/CerrarSession";
 const UserMenu = withRouter(({ session, setView, history }) => {
   const { nombre, apellido1 } = session.nombre ? session.nombre : "";
   return (
     <Fragment>
-      <div
-        className="container-fluid bg-transparent"
-        // style={{ height: "65px" }}
-      />
-
-      <div
-        className="no-wrap text-primary bg-transparent my-3 text-center"
-        style={{ height: "10vh" }}
-      >
         <i aria-hidden="true" className="user icon large w-100  my-1"></i>
-        <h1 className="h5">
+
+        <h1 className="h5" style={{textAlign:"center",margin:""}}>
           {nombre} {apellido1}
         </h1>
-      </div>
+    
 
       <ul
-        className="list-group text-light bg-transparent text-center"
+        className="text-light lista-menu"
         onClick={() => setView(false)}
       >
+        <li
+          className="list-group-item bg-primary  m-1"
+          onClick={() => openFullscreen()}
+        >
+          <i
+            aria-hidden="true"
+            className="camera icon text-light large w-100"
+          />
+          FullScreen
+        </li>
         <li
           className="list-group-item bg-primary m-1"
           onClick={() => history.push("/dashboard")}
@@ -76,14 +80,12 @@ const UserMenu = withRouter(({ session, setView, history }) => {
         </li>
         <li
           className="list-group-item bg-primary  m-1"
-          onClick={() => history.push("/lorem")}
+         
         >
-          <i
-            aria-hidden="true"
-            className="camera icon text-light large w-100"
-          />
-          Lorem
+           <CerrarSession />
+          
         </li>
+        
       </ul>
     </Fragment>
   );

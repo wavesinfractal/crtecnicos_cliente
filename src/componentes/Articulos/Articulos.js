@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
+import React, {useState} from "react";
 import { BuscarArticulos } from "../../Querys/Articulos";
 import { Link } from "react-router-dom";
 import SessionHook from "../SessionHook";
 import { useQuery } from "@apollo/react-hooks";
 
 const Articulos = props => {
-  const session = SessionHook();
+  const { session } = SessionHook();
 
   const { loading, error, data, refetch } = useQuery(BuscarArticulos, {
+    pollInterval: 1000,
     variables: { buscar: { propietario: session.id } }
   });
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   if (loading) return "loading...";
   if (error) return error;
 
   return (
     <div className="container">
+      <div className="row d-flex justify-content-center">
+        <h1 className="h4">Mis Articulos</h1>
+      </div>
       <div className="row">
         <div className="col">
           <ListaArticulos

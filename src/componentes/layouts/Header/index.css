@@ -1,0 +1,23 @@
+.header{
+    top:0;
+    left:0;
+    width: 100vw;
+    position: fixed;
+    background-color: var(--color-primario);
+    height: var(--height-header);
+    display:grid;
+    grid-template-columns: .1fr 1fr .1fr;
+    justify-content: space-around;
+    z-index: 50;
+}
+.icon-nav{
+    color : #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-nav{
+    background-color: transparent;
+    border: 0px;
+}

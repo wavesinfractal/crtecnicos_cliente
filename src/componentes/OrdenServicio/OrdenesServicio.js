@@ -1,28 +1,42 @@
 import React, { useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import {  Mutation } from "react-apollo";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { queryOrdenesServicio } from "../../Querys/OrdenServicio";
-import { MutationEliminarCliente } from "../../Mutations/Clientes";
+import { MutationCancelarOrden } from "../../Mutations/OrdenServicio";
 import Paginador from "../Paginador";
 import Alerts from "../layouts/Alerts";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
-const OrdenesServicio = props => {  
-  const [limite, setLimite] = useState(10);
+const OrdenesServicio = props => {
+  const [limite, setLimite] = useState(30);
   const [offset, setOffset] = useState(0);
   const [paginaActual, setPaginaActual] = useState(1);
   const [alerta, setAlerta] = useState({ mostrar: false, mensaje: "" });
-  const { loading, error, data, startPolling, stopPolling } = useQuery(
-    queryOrdenesServicio,
-    {
-      pollInterval: 100,
-      variables: {
-        limite: limite,
-        offset: offset,
-        buscar: ` { \"cliente\" : \"${props.session.id}\"  ,  \"estado\" : 0 } `
-      }
+  // setLimite(0) ;
+  // setPaginaActual(0);
+
+  const { loading, error, data } = useQuery(queryOrdenesServicio, {
+    pollInterval: 1000,
+    variables: {
+      limite: limite,
+      offset: offset,
+      buscar: [
+        {
+          index: "usuario",
+          value: props.session.id
+        },
+        {
+          index: "pendiente",
+          value: "true"
+        }
+      ]
     }
+   
+  });
+  const [cancelarOrdenServicio, { Mloading, merror }] = useMutation(
+    MutationCancelarOrden
   );
+
   const paginaAnterior = () => {
     setOffset({
       offset: offset - limite,
@@ -39,7 +53,6 @@ const OrdenesServicio = props => {
 
   if (loading) return "Cargando...";
   if (error) return `Error ${error}`;
-  
 
   return (
     <div className="container flex  justify-content-center">
@@ -62,8 +75,10 @@ const OrdenesServicio = props => {
             return (
               <tr key={index}>
                 <td>{item.orden}</td>
-                <td className="d-none d-md-block">{item.tecnico}</td>
-                <td>{item.fechainicio}</td>
+                <td className="d-none d-md-block">
+                  {item.tecnico.nombre.nombre}
+                </td>
+                <td>{moment(item.fecha_inicio).format('L')}</td>
                 <td className="d-flex justify-content-around">
                   <Link
                     to={`/clientes/editar/${item.id}`}
@@ -73,40 +88,21 @@ const OrdenesServicio = props => {
                   >
                     Editar
                   </Link>
-                  <Mutation
-                    mutation={MutationEliminarCliente}
-                    onCompleted={data => {
-                      setAlerta({
-                        alerta: {
-                          mostrar: true,
-                          mensaje: data.eliminarCliente
-                        }
-                      });
+
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          `Estas a punto de eliminar La Orden: ${item.id} .  \nDeseas continuar?`
+                        )
+                      ) {
+                        cancelarOrdenServicio({ variables: { id: item.id } });
+                      }
                     }}
                   >
-                    {(eliminarCliente, { loading, error, data }) => {
-                      if (loading) return "Cargando...";
-                      if (error) return error;
-                      const input = { id: item.id };
-
-                      return (
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                `Estas a punto de eliminar el cliente: ${item.nombre} ${item.apellido}.  \nDeseas continuar?`
-                              )
-                            ) {
-                              eliminarCliente({ variables: input });
-                            }
-                          }}
-                        >
-                          Eliminar
-                        </button>
-                      );
-                    }}
-                  </Mutation>
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             );

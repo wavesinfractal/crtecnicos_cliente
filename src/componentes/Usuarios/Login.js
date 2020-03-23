@@ -6,7 +6,6 @@ import Alerts from "../layouts/Alerts";
 import ImgLogin from "../../descarga.png";
 
 const Login = props => {
-console.log(props)
   const [alerta, setAlerta] = useState({
     mostrar: false,
     mensaje: "",
@@ -15,12 +14,14 @@ console.log(props)
 
   const [movil, setMovil] = useState("");
   const [password, setPassword] = useState("");
+  const [rol, setRol] = useState("Cliente");
+  
   const clearState = () => {
     setPassword("");
     setMovil("");
   };
-  const [login,{ loading, error } ] = useMutation(MutationLogin);
-  
+  const [login, { loading }] = useMutation(MutationLogin);
+
   useEffect(() => {
     if (alerta.mostrar) {
       var timeId = setTimeout(() => {
@@ -36,11 +37,9 @@ console.log(props)
     };
   }, [alerta]);
 
-  useEffect(() => {      
-    return () =>    
-    props.refetch();
-  }, []);
-
+  useEffect(() => {
+    return () => props.refetch();
+  }, [props]);
 
   const SUBMIT = e => {
     e.preventDefault();
@@ -87,80 +86,112 @@ console.log(props)
   };
 
   return (
-    (loading) ?
-       "...loading":"",
-    
-    <div className="container full-height">
-      {alerta.mostrar ? <Alerts data={alerta} /> : null}
-      <div className="row flex justify-content-center align-items-center full-height mt-4">
-        <div className="col-11 col-sm-10 col-md-8">
-          <div className="form-box">
-            <form onSubmit={e => SUBMIT(e)}>
-              <fieldset>
-                <div className="row d-flex justify-content-center">
-                  <div className="col-4">
-                    <img
-                      alt="Imagen"
-                      id="avatar"
-                      className="img img-fluid"
-                      src={ImgLogin}
-                    />
-                  </div>
-                </div>
-
-                <input
-                  className="form-control my-2"
-                  type="number"
-                  id="movil"
-                  name="movil"
-                  placeholder="movil"
-                  value={movil}
-                  onChange={e => {
-                    setMovil(e.target.value);
-                  }}
-                />
-                <input
-                  className="form-control my-2"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="contraseña"
-                  value={password}
-                  onChange={e => {
-                    setPassword(e.target.value);
-                  }}
-                />
-                <div className="row d-flex justify-content-center my-3 p-5">
-                  <div className="col-12 col-sm-10 d-flex flex-column justify-content-center">
+    loading ? "...loading" : "",
+    (
+      <div className="container full-height">
+        {alerta.mostrar ? <Alerts data={alerta} /> : null}
+        <div className="row flex justify-content-center align-items-center full-height mt-4">
+          <div className="col-11 col-sm-10 col-md-8">
+            <div className="form-box">
+              <form onSubmit={e => SUBMIT(e)}>
+                <fieldset>
+                  
+                  <div className="d-flex justify-content-between my-5 ">                    
                     <button
-                      disabled={validar()}
-                      className="btn btn-primary btn-block "
-                      type="submit"
-                    >
-                      Iniciar sesión
-                    </button>
-                    <Link
-                      to="/registro"
-                      className="btn btn-success  my-3 float-center mx-md-5"
+                      className="btn btn-primary flex-grow-1 mx-2 float-center "
                       type="button"
+                      onClick={()=>setRol("Cliente")}
                     >
-                      Crear cuenta nueva{" "}
-                    </Link>
-                    <Link
-                      to="/recuperarpass"
-                      className="text-lowercase  my-3 my float-center text-center border-0"
-                      type="link"
+                      Cliente
+                    </button>
+                    <button
+                      className="btn btn-primary  flex-grow-1 mx-2 float-center "
+                      type="button"
+                      onClick={()=>setRol("Tecnico")}
                     >
-                      ¿Olvidaste tu cuenta?{" "}
-                    </Link>
+                      Tecnico
+                    </button>
+                    <button
+                      className="btn btn-primary flex-grow-1 mx-2 float-center"
+                      type="button"
+                      onClick={()=>setRol("Taller")}
+                    >
+                      Taller
+                    </button>
                   </div>
-                </div>
-              </fieldset>
-            </form>
+                  <div className="row d-flex justify-content-center">
+                    <div className="col-4">
+                      <img
+                        alt="Imagen"
+                        id="avatar"
+                        className="img img-fluid"
+                        src={ImgLogin}
+                      />
+                    </div>
+                  </div>
+
+                  <h1 className="h3 text-center">Login {rol}</h1>
+
+
+
+                  <input
+                    className="form-control my-2"
+                    type="number"
+                    id="movil"
+                    name="movil"
+                    placeholder="movil"
+                    value={movil}
+                    onChange={e => {
+                      setMovil(e.target.value);
+                    }}
+                  />
+                  <input
+                    className="form-control my-2"
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="contraseña"
+                    value={password}
+                    onChange={e => {
+                      setPassword(e.target.value);
+                    }}
+                  />
+                  <div className="row d-flex justify-content-center mt-3">
+                    <div className="col-12 col-sm-10 d-flex flex-column justify-content-center">
+                      <button
+                        disabled={validar()}
+                        className="btn btn-primary btn-block "
+                        type="submit"
+                      >
+                        Iniciar sesión
+                      </button>
+                      <Link
+                        to={`/registro/${rol}`}
+                        className="btn btn-success  my-3 float-center mx-md-5"
+                        type="button"
+                        params={{ testvalue: "hello" }}
+
+                      >
+                        Crear cuenta {rol}
+                      </Link>
+                      <Link
+                        to="/recuperarpass"
+                        className="text-lowercase  my-3 my float-center text-center border-0"
+                        type="link"
+                        params={{ testvalue: "hello" }}
+                        
+                      >
+                        ¿Olvidaste tu cuenta?{" "}
+                      </Link>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 

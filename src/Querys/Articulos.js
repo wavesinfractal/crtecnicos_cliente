@@ -1,18 +1,17 @@
 import gql from "graphql-tag";
 
 export const BuscarArticulo = gql`
-
-query obtenerArticulo($id:ID){
-getArticulo(inputId: $id){ 
-  id
-  serie 
-  modelo 
-  imagenes{imagen} 
-  historial {reporte}
-  proxmantenimiento
-}
-
-}
+  query obtenerArticulo($id: ID) {
+    getArticulo(inputId: $id) {
+      id
+      serie
+      modelo
+      descripcion
+      imagenes {
+        thumb
+      }
+    }
+  }
 `;
 
 export const BuscarArticulos = gql`
@@ -21,11 +20,10 @@ export const BuscarArticulos = gql`
       id
       serie
       modelo
+      descripcion
       imagenes {
-        imagen
+        thumb
       }
-      historial {reporte}
-      proxmantenimiento
     }
   }
 `;

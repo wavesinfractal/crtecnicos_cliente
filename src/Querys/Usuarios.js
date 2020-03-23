@@ -7,9 +7,9 @@ export const queryGetUsuarioActual = gql`
       email
       cedula
       nombre {nombre apellido1 apellido2}
-      foto          
-      estado
+      foto  
       mensaje
+      status
     }
   }
 `;

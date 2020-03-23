@@ -1,25 +1,21 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import MenuSidebar from "./componentes/Menu/MenuSidebar";
-import {
-  BrowserRouter as Router,  
-  Redirect
-} from "react-router-dom";
-import Rutas from "./componentes/Rutas/Rutas"
-import Header from "./componentes/layouts/Header";
-import Session from "./componentes/Session";
+import { BrowserRouter as Router, Redirect } from "react-router-dom";
 
+import Rutas from "./componentes/Rutas/Rutas";
+import Header from "./componentes/layouts/Header/Header";
+import Footer from "./componentes/layouts/Footer/Footer";
+import Session from "./componentes/Session/Session";
 
 const App = props => {
-   
   const { session } = props;
   const [view, setViewer] = useState("");
 
-
-  const SetView = data => {    
+  const SetView = data => {
     switch (data) {
-      case 1:           
+      case 1:
         return setViewer(!view);
-        case false:           
+      case false:
         return setViewer(false);
       case true:
         return setViewer(true);
@@ -31,29 +27,41 @@ const App = props => {
   return (
     <Fragment>
       <Router>
-        <MenuSidebar {...props} view={view} setView={SetView}/>
-        {filtro(session)} //Redirecciona en caso de no tener session
+        <MenuSidebar {...props} view={view} setView={SetView} />
+        {filtro(session)}
         <Header {...props} setView={SetView} />
-        <Rutas {...props}/>
+        <div
+          className="className"
+          style={{
+            boxSizing: "border-box",
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            overflowX: "hidden",
+            display: "grid",
+            gridTemplateRows:
+              "var(--height-header) calc(100vh + var(--height-header) + var(--height-footer))  var(--height-footer) "
+          }}
+        >
+          <div className="Header-Space"></div>
+          <Rutas {...props} />
+          <div className="Footer-Space"></div>
+        </div>
+        <Footer />
       </Router>
     </Fragment>
   );
 };
 
-// const SideBarBody = SidebarElement(Rutas);
-
-
-const filtro = session => { //Filtro para las sessiones.
+// Redirecciona en caso de no tener session
+const filtro = session => {
   if (session) {
-    const { estado } = session;
+    const { status } = session;
     // console.log(session);
-    switch (estado) {
-      case "CONFIRMADO":
+    switch (status) {
+      case true:
         return <Redirect to="/dashboard" />;
-      case "PENDIENTE":
+      case false:
         return <Redirect to="/confirmacion" />;
-      case "SINSESSION":
-        return <Redirect to="/login" />;
       case null:
         return <Redirect to="/login" />;
       default:
@@ -62,7 +70,6 @@ const filtro = session => { //Filtro para las sessiones.
     return <Redirect to="/login" />;
   }
 };
-// -
 
 const RootSession = Session(App);
 

@@ -7,25 +7,19 @@ const Sectores = props => {
   const [provincia, setProvincia] = useState(props.values.provincia);
   const [canton, setCanton] = useState(props.values.canton);
   const [distrito, setDistrito] = useState(props.values.distrito);
-  
 
   useEffect(() => {
-    const controller = new AbortController();
-    getProvincias(controller);
+    getProvincias();
 
     if (provincia > 0) {
-      getCantones(controller);
+      getCantones();
     }
     if (canton > 0 && provincia > 0) {
-      getDistritos(controller);
+      getDistritos();
     }
     if (canton > 0 && provincia > 0 && distrito > 0) {
       sendDatos();
-      // controller.abort();
     }
-    return () => {      
-      controller.abort();
-    };
   }, [provincia, canton, distrito]);
 
   const refProvincia = useRef(null);
@@ -33,49 +27,39 @@ const Sectores = props => {
   const refDistrito = useRef(null);
 
   const sendDatos = () => {
+    var Provincia =
+      refProvincia.current.options[refProvincia.current.value].text;
+    var Canton = refCanton.current.options[refCanton.current.value].text;
+    var Distrito = refDistrito.current.options[refDistrito.current.value].text;
 
-     var Provincia =  refProvincia.current.options[refProvincia.current.value].text
-     var Canton = refCanton.current.options[refCanton.current.value].text  
-     var Distrito = refDistrito.current.options[refDistrito.current.value].text
+    Provincia = Provincia === "Elegir..." ? null : Provincia;
+    Canton = Canton === "Elegir..." ? null : Canton;
+    Distrito = Distrito === "Elegir..." ? null : Distrito;
 
+    const texto = Array(Provincia, Canton, Distrito);
 
-     Provincia = (Provincia === "Elegir...")?null: Provincia
-     Canton = (Canton === "Elegir...")?null: Canton
-     Distrito = (Distrito === "Elegir...")?null: Distrito
-      
-     const texto = Array(Provincia, Canton,  Distrito)
-
-
-   
-
-    props.getData({ provincia, canton, distrito },texto.join(" - "));
-
-
-
+    props.getData({ provincia, canton, distrito }, texto.join(" - "));
   };
 
-  const getProvincias = async controller => {
+  const getProvincias = async () => {
     let response = await fetch(
-      `https://ubicaciones.paginasweb.cr/provincias.json`,
-      { signal: controller.signal }
+      `https://ubicaciones.paginasweb.cr/provincias.json`
     );
     let provincias = await response.json();
     setProvincias(provincias);
   };
 
-  const getCantones = async controller => {
+  const getCantones = async () => {
     let response = await fetch(
-      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/cantones.json`,
-      { signal: controller.signal }
+      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/cantones.json`
     );
     let cantones = await response.json();
     setCantones(cantones);
   };
 
-  const getDistritos = async controller => {
+  const getDistritos = async () => {
     let response = await fetch(
-      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/canton/${canton}/distritos.json`,
-      { signal: controller.signal }
+      `https://ubicaciones.paginasweb.cr/provincia/${provincia}/canton/${canton}/distritos.json`
     );
     let distritos = await response.json();
     setDistritos(distritos);
@@ -86,8 +70,8 @@ const Sectores = props => {
       <div className="form-group col-sm-4">
         <label>Provincia</label>
         <select
-         required
-         id="provincia"
+          required
+          id="provincia"
           ref={refProvincia}
           className="form-control"
           onChange={e => {
@@ -102,7 +86,7 @@ const Sectores = props => {
           }}
         >
           <option value="0">Elegir...</option>
-          {Object.values(provincias).map((data, index) => (            
+          {Object.values(provincias).map((data, index) => (
             <option key={index} value={index + 1}>
               {data}
             </option>
@@ -133,15 +117,15 @@ const Sectores = props => {
       <div className="form-group col-sm-4">
         <label>Distrito</label>
         <select
-         required
-            ref={refDistrito}
-            className="form-control"
-            onChange={e => {
+          required
+          ref={refDistrito}
+          className="form-control"
+          onChange={e => {
             setDistrito(Number(e.target.value));
           }}
         >
           <option value="0">Elegir...</option>
-          {Object.values(distritos).map((data, index) => (            
+          {Object.values(distritos).map((data, index) => (
             <option key={index} value={index + 1}>
               {data}
             </option>

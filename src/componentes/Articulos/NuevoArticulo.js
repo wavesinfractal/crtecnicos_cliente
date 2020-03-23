@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { MutNuevoArticulo } from "../../Mutations/Articulos";
-
+// import { createHashHistory } from 'history'
+// const history = createHashHistory()
 const NuevoArticulo = props => {
   const history = useHistory();
-  console.log(props.session.id);
-  const [propietario, setPropietario] = useState("");
   const [marca, setMarca] = useState("");
   const [serie, setSerie] = useState("");
   const [modelo, setModelo] = useState("");
-  const [historial, setHistorial] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [imagenes, setImagenes] = useState("");
-  const [mantenimiento, setMantenimiento] = useState("");
 
   const [crearArticulo, { loading, data, error }] = useMutation(
     MutNuevoArticulo
@@ -24,13 +22,15 @@ const NuevoArticulo = props => {
       propietario: props.session.id,
       serie: serie,
       modelo: modelo,
-      historial: { reporte: "5df86dc6a8a6c13e1c820b2e" },
+      descripcion: descripcion,
       imagenes: {
         imagen: "0007532_lavadora-automatica-mabe-lmh79104sbab0.jpg"
-      },
-      proxmantenimiento: mantenimiento
+      }
     };
-    crearArticulo({ variables: { inputData } }).then(() => { history.push("/articulos");});
+    // console.log(inputData)
+    crearArticulo({ variables: { inputData } }).then(() => {
+      history.push("/articulos");
+    });
   };
   return (
     <div className="container d-flex justify-content-center mt-5 border-2">
@@ -42,15 +42,32 @@ const NuevoArticulo = props => {
       >
         <div className="row ">
           <div className="col">
-            <div className="container border border-5">
+            <div className="d-flex justify-content-center container border border-5">
               <img
                 src="https://www.tiendamexpress.com/content/images/thumbs/0007532_lavadora-automatica-mabe-lmh79104sbab0.jpeg"
                 alt=""
                 className="img img-fluid m-4"
+                style={{ maxHeight: "250px" }}
               />
             </div>
           </div>
         </div>
+
+        <div className="form-row">
+          <div className="form-group col-12">
+            <label htmlFor="">Descripcion</label>
+            <input
+              value={descripcion}
+              type="text"
+              className="form-control"
+              placeholder="Descripcion"
+              onChange={e => {
+                setDescripcion(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
         <div className="form-row">
           <div className="form-group col-md-6">
             <label>Linea</label>
@@ -58,8 +75,7 @@ const NuevoArticulo = props => {
               <option value="LINEABLANCA">Electrodomesticos</option>
             </select>
           </div>
-        </div>
-        <div className="form-row">
+
           <div className="form-group col-md-6">
             <label>Marca</label>
             <input
@@ -69,18 +85,6 @@ const NuevoArticulo = props => {
               placeholder="Marca"
               onChange={e => {
                 setMarca(e.target.value);
-              }}
-            />
-          </div>
-          <div className="form-group col-md-6">
-            <label>Modelo</label>
-            <input
-              value={modelo}
-              type="text"
-              className="form-control"
-              placeholder="Modelo"
-              onChange={e => {
-                setModelo(e.target.value);
               }}
             />
           </div>
@@ -98,29 +102,22 @@ const NuevoArticulo = props => {
               }}
             />
           </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group col-4">
-            <label>Mantenimiento</label>
+          <div className="form-group col-md-6">
+            <label>Modelo</label>
             <input
-              value={mantenimiento}
-              type="date"
+              value={modelo}
+              type="text"
               className="form-control"
-              placeholder="Mantenimiento"
+              placeholder="Modelo"
               onChange={e => {
-                setMantenimiento(e.target.value);
+                setModelo(e.target.value);
               }}
             />
           </div>
-          <div className="form-group col-4">
-            <label>Linea</label>
-            <select className="form-control">
-              <option value="Mensual">Mensual</option>
-              <option value="Anual">Anual</option>
-            </select>
-          </div>
         </div>
-
+        <button type="button" className="btn btn-success float-right" onClick={()=> history.goBack()}>
+          Guardar Cambios
+        </button>
         <button type="submit" className="btn btn-success float-right">
           Guardar Cambios
         </button>

@@ -1,25 +1,32 @@
 import gql from "graphql-tag";
 
-export const QueryTecnicos = gql`
-  query getTecnicos($buscar: String) {
-    getTecnicos(buscar: $buscar) {
-      id
-      cedula
-      movil
-      nombre {
-        nombre
-        apellido1
-        apellido2
+export const QueryTecnicos = gql`  
+query getUsuarios(
+$limite: Int,
+$offset: Int,
+$buscar: [DataInput]
+)
+
+{getUsuarios(
+limite: $limite
+offset: $offset
+buscar: $buscar){
+id
+movil
+email
+nombre  {nombre apellido1 apellido2}   
+imagenes{
+        tipo
+        url
       }
-      email
-      telefonos {
-        telefono
-      }
-      zona {
-        provincia
-        canton
-        distrito
-      }
+rol
+foto
+zona {provincia canton distrito}
+direccion
+empresa
+nacimiento
+tecnicoid { 
+ id      
       lineas {
         id
       }
@@ -39,6 +46,11 @@ export const QueryTecnicos = gql`
         canton
         horario
       }
-    }
-  }
+      
+      
+      }
+
+mensaje
+}
+}
 `;

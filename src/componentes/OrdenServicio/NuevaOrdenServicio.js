@@ -4,7 +4,7 @@ import { MutationNuevaOrden } from "../../Mutations/OrdenServicio";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
 import SeleccionarTecnico from "../Tecnicos/SeleccionarTecnico";
-import Modal from "../Modal";
+import Modal from "../layouts/Modal/Modal";
 import Articulos from "../Articulos/Articulos";
 import Sectores from "../layouts/Sectores";
 import Alerts from "../layouts/Alerts";
@@ -19,16 +19,15 @@ const NuevaOrdenServicio = props => {
   const refZona = useRef(null);
   // const useFallaState = createPersistedState("falla");
 
-  const [crearOrdenServicio, { loading, error }] = useMutation(
+  const [crearOrdenServicio, { loading, error, data }] = useMutation(
     MutationNuevaOrden
   );
-
-  const [cliente, setCliente] = useState({
-    id: "",
-    nombre: "",
-    apellido1: "",
-    apellido2: ""
-  });
+  // const [cliente, setCliente] = useState({
+  //   id: "",
+  //   nombre: "",
+  //   apellido1: "",
+  //   apellido2: ""
+  // });
 
   const [articulo, setArticulo] = useState("");
   const [tecnico, setTecnico] = useState({
@@ -47,7 +46,6 @@ const NuevaOrdenServicio = props => {
     color: ""
   });
 
-
   useEffect(() => {
     if (alerta.mostrar) {
       var timeId = setTimeout(() => {
@@ -63,15 +61,14 @@ const NuevaOrdenServicio = props => {
     };
   }, [alerta]);
 
- 
   useEffect(() => {
-    const referencias = [refZona, refTecnico, refSerie,refFalla,refDireccion];
-    refDireccion.current.value = direccion
-    refFalla.current.value = falla   
+    const referencias = [refZona, refTecnico, refSerie, refFalla, refDireccion];
+    refDireccion.current.value = direccion;
+    refFalla.current.value = falla;
     referencias.map(data => {
-      let input = data.current;         
+      let input = data.current;
       if (input.value !== "") {
-                let valid = input.validity.valid;
+        let valid = input.validity.valid;
         if (valid) {
           input.classList.add("is-valid");
           input.classList.remove("is-invalid");
@@ -86,39 +83,45 @@ const NuevaOrdenServicio = props => {
     });
   }, [tecnico, articulo, falla, direccion, zonaText]);
 
-  const seleccion = data => {     
-    if (data.tecnico)  setTecnico(data.tecnico) 
-   if (data.articulo) setArticulo(data.articulo)   
-   
+  const seleccion = data => {
+    if (data.tecnico) setTecnico(data.tecnico);
+    if (data.articulo) setArticulo(data.articulo);
   };
 
   const getData = (data, text) => {
     if (data.provincia !== "" || data.canton !== "" || data.distrito !== "")
       setZona({ ...data });
-      setzonaText(text);
+    setzonaText(text);
 
     $("#MiCollapse").collapse("hide");
   };
 
-  const EnviarMutation = (e, crearUsuario) => {
+  const EnviarMutation = async (e, crearUsuario) => {
     e.preventDefault();
-
-  
-    const input = {
-      cliente: props.session.id,
+    const inputData = {
+      fecha_programacion: "04/04/2020",
+      usuario: props.session.id,
       tecnico: tecnico.id,
-      serie: articulo.id,
+      articulo: articulo.id,
       falla: falla,
-      direccion: direccion
-    };   
+      direccion: direccion,
+      telefonos: [5555553, 1231233]
+    };
+  // console.log(inputData)
     crearOrdenServicio({
-      variables: { input }
+      variables: { inputData }
     }).then(() => {
       history.push("/ordenes");
     });
   };
+  // if (error) {
+  //   return (
+  //   <div>
+  //     <h1>Error</h1>
+  //   </div>)
+  // }
 
-  const abrirModal = () => {    
+  const abrirModal = () => {
     switch (modal) {
       case 0:
         return "";
@@ -145,8 +148,8 @@ const NuevaOrdenServicio = props => {
             cerrarModal={cerrarModal}
             componente={Articulos}
           />
-        );      
-      default:     
+        );
+      default:
     }
   };
 
@@ -155,7 +158,7 @@ const NuevaOrdenServicio = props => {
   };
   if (loading) return "loading...";
   if (error) return error;
-
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   return (
     <div className="row d-flex justify-content-center mt-5">
       <div className="col-md-8 ">
@@ -214,28 +217,28 @@ const NuevaOrdenServicio = props => {
                 id="tecnico"
                 ref={refTecnico}
                 defaultValue={
-                  ( tecnico.nombre.nombre != "" || tecnico.nombre.apellido1 != "") 
+                  tecnico.nombre.nombre != "" || tecnico.nombre.apellido1 != ""
                     ? `${tecnico.nombre.nombre} ${tecnico.nombre.apellido1}`
                     : ""
                 }
-                readOnly                
+                readOnly
                 className="form-control text-center"
                 onClick={() => setModal(1)}
                 minLength="10"
                 maxLength="10"
-                autoComplete="off"                
+                autoComplete="off"
               />
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="articulo">Articulo</label>
               <input
                 required
-                defaultValue={ articulo.modelo}
+                defaultValue={articulo.modelo}
                 ref={refSerie}
-                id="articulo"                
+                id="articulo"
                 readOnly
-                className="form-control text-center"                
-                onClick={() => setModal(2)}              
+                className="form-control text-center"
+                onClick={() => setModal(2)}
               />
             </div>
           </div>
@@ -251,7 +254,7 @@ const NuevaOrdenServicio = props => {
                   maxLength="50"
                   minLength="25"
                   onChange={e => {
-                    setFalla(e.target.value);                    
+                    setFalla(e.target.value);
                   }}
                   title="Escriba al menos 25 letras."
                 />
@@ -275,7 +278,6 @@ const NuevaOrdenServicio = props => {
                   onChange={e => {
                     setDireccion(e.target.value);
                   }}
-                 
                 />
               </div>
             </div>
@@ -283,7 +285,6 @@ const NuevaOrdenServicio = props => {
           <button type="submit" className="btn btn-success float-right">
             Enviar Orden de Servcio
           </button>
-      
         </form>
       </div>
     </div>

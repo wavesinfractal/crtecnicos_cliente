@@ -7,13 +7,11 @@ export const MutNuevoArticulo = gql`
       propietario
       serie
       modelo
+      descripcion
       imagenes {
         imagen
-      }
-      historial {
-        reporte
-      }
-      proxmantenimiento
+      }      
+
     }
   }
 `;

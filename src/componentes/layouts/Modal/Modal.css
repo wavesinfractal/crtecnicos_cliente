@@ -1,0 +1,35 @@
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 999999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow-y: hidden;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.788); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.container-modal {
+  overflow-y: scroll;
+ 
+  padding: 0px;
+  
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+}
+
+/* The Close Button */
+.container-modal > span {
+  position: fixed;
+  color: #d8871d;
+  right: 10px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+

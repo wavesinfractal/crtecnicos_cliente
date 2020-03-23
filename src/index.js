@@ -8,13 +8,12 @@ import RootSession from './App';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from "apollo-boost";
 import { InMemoryCache } from "apollo-boost";
-
-import { ApolloProvider } from "react-apollo";
+import  {ApolloProvider}  from "react-apollo";
 
 var Url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   
-  Url = "https://crtecnicosserver.herokuapp.com/graphql" } else {
+  Url = "http://192.168.1.10:8000/graphql" } else {
     Url = "https://crtecnicosserver.herokuapp.com/graphql" 
   //  Url = "https://crtecnicosserver.herokuapp.com/graphql"
   // "http://192.168.1.10:8000/graphql"
@@ -58,4 +57,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();
